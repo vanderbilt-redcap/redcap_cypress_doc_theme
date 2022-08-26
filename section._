@@ -3,9 +3,14 @@
   <% if (typeof nested === 'undefined' || (section.context && section.context.github)) { %>
   <div class='clearfix'>
     <% if (typeof nested === 'undefined') { %>
-    <h3 class='fl m0' id='<%- slug(section.namespace) %>'>
-      <%- section.name %>
-    </h3>
+    <h2 class='fl mb0 mt0' id='<%- slug(section.namespace) %>'>
+      <% if (section.examples && section.examples.length) { %>
+        <% section.examples.forEach(function(example) { %>
+          <% if (example.caption) { %><p><%= md(example.caption) %></p><% } %>
+          <%= highlight(example.description) %>
+        <% }) %>
+      <% } %>
+    </h2>
     <% } %>
     <% if (section.context && section.context.github) { %>
       <a class='fr fill-darken0 round round pad1x quiet h5' href='<%= section.context.github.url %>'>
@@ -15,8 +20,46 @@
   </div>
   <% } %>
 
+  <% if (section.params && section.params.length) { %>
+      <div class='py1 quiet mt1 prose-big'>Parameters</div>
+      <div class='prose'>
+        <% section.params.forEach(function(param) { %>
+          <div class='space-bottom0'>
+            <div>
+              <span class='code bold'><%- param.name%></span> <code class='quiet'>(<%= formatType(param.type) %><% if (param.default) { %>
+              = <code><%- param.default %></code><% } %>)</code>
+  	    <%= md(param.description, true) %>
+            </div>
+            <% if (param.properties && param.properties.length) { %>
+            <table class='mt1 mb2 fixed-table h5 col-12'>
+              <colgroup>
+                <col width='30%' />
+                <col width='70%' />
+              </colgroup>
+              <thead>
+                <tr class='bold fill-light'>
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody class='mt1'>
+                <% param.properties.forEach(function(property) { %>
+                  <%= renderParamProperty({
+                    property: property,
+                    renderParamProperty: renderParamProperty
+                  }) %>
+                <% }) %>
+              </tbody>
+            </table>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+
   <%= md(section.description) %>
-    <div class='pre p1 fill-light mt0'><%= signature(section) %></div>
+
   <% if (section.type) { %>
     <p>
       Type:
@@ -41,42 +84,7 @@
   <% if (section.copyright) { %><div>Copyright: <%= md(section.copyright, true) %></div><% }%>
   <% if (section.since) { %><div>Since: <%- section.since %></div><% }%>
 
-  <% if (section.params && section.params.length) { %>
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      <% section.params.forEach(function(param) { %>
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'><%- param.name%></span> <code class='quiet'>(<%= formatType(param.type) %><% if (param.default) { %>
-            = <code><%- param.default %></code><% } %>)</code>
-	    <%= md(param.description, true) %>
-          </div>
-          <% if (param.properties && param.properties.length) { %>
-          <table class='mt1 mb2 fixed-table h5 col-12'>
-            <colgroup>
-              <col width='30%' />
-              <col width='70%' />
-            </colgroup>
-            <thead>
-              <tr class='bold fill-light'>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody class='mt1'>
-              <% param.properties.forEach(function(property) { %>
-                <%= renderParamProperty({
-                  property: property,
-                  renderParamProperty: renderParamProperty
-                }) %>
-              <% }) %>
-            </tbody>
-          </table>
-          <% } %>
-        </div>
-      <% }) %>
-    </div>
-  <% } %>
+
 
   <% if (section.properties && section.properties.length) { %>
     <div class='py1 quiet mt1 prose-big'>Properties</div>
@@ -130,14 +138,6 @@
         <li><%= formatType(throws.type) %>: <%= md(throws.description, true) %></li>
       <% }); %>
     </ul>
-  <% } %>
-
-  <% if (section.examples && section.examples.length) { %>
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    <% section.examples.forEach(function(example) { %>
-      <% if (example.caption) { %><p><%= md(example.caption) %></p><% } %>
-      <pre class='p1 overflow-auto round fill-light'><%= highlight(example.description) %></pre>
-    <% }) %>
   <% } %>
 
   <% if (section.members.static && section.members.static.length) { %>
