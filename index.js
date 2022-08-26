@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import template from 'lodash/template.js';
 import GithubSlugger from 'github-slugger';
-import { util } from '../index.js';
+import { util } from 'documentation/src/index.js';
 import hljs from 'highlight.js';
 import { fileURLToPath } from 'url';
 
