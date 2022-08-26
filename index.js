@@ -1,5 +1,3 @@
-require('documentation')
-
 import fs from 'fs/promises';
 import path from 'path';
 import template from 'lodash/template.js';
