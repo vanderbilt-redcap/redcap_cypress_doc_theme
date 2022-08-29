@@ -30,8 +30,10 @@ document.getElementById('filter-input').addEventListener('keyup', function (e) {
 
   if (!value.match(/^\s*$/)) {
     match = function (element) {
-      var html = element.firstChild.innerHTML;
-      return html && html.toLowerCase().indexOf(value) !== -1;
+      if(element.getElementsByTagName('a').length){
+        var html = element.getElementsByTagName('a')[0].innerText;
+        return html && html.toLowerCase().indexOf(value) !== -1;
+      }
     };
   }
 
