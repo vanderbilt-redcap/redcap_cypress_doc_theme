@@ -27,14 +27,22 @@
             type='text' />
           <div id='toc'>
             <ul class='list-reset h5 py1-ul'>
+              <% var previous_kind = '' %>
               <% docs.forEach(function(doc) { %>
                 <% var hasMembers = doc.members.static.length || doc.members.instance.length %>
-                <li><a
+                <li>
+                <% if (doc.name !== previous_kind){ %>
+                  <h2 class="mb0 mt0"><%- doc.name %></h2>
+                <% }%>
+                <a
                   href='#<%=slug(doc.namespace)%>'
                   class="<% if (doc.kind === 'note') { %>h5 bold black caps<% } %><% if (hasMembers) { %> toggle-sibling<% } %>">
-                  <% if (doc.name !== 'Given' && doc.name !== 'Then' && doc.name !== 'When' && doc.name !== 'And') { %> <%= doc.name %> <% } %>
+                     <%- doc.tags[1]['description'] %>
                   <% if (hasMembers) { %><span class='icon'>▸</span><% } %>
                 </a>
+
+                <% previous_kind = doc.name %>
+
                 <% if (hasMembers) { %>
                 <div class='toggle-target display-none'>
                   <% if (doc.members.static && doc.members.static.length) { %>
@@ -47,7 +55,6 @@
                         .<%- member.name %>
                       </a></li>
                     <% }) %>
-
                     </ul>
                   <% } %>
                   <% if (doc.members.instance && doc.members.instance.length) { %>
