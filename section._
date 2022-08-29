@@ -2,16 +2,17 @@
 
   <% if (typeof nested === 'undefined' || (section.context && section.context.github)) { %>
   <div class='clearfix'>
-
     <% if (typeof nested === 'undefined') { %>
-    <h2 class='fl mb0 mt0' id='<%- slug(section.namespace) %>'>
+
       <% if (section.examples && section.examples.length) { %>
         <% section.examples.forEach(function(example) { %>
           <% if (example.caption) { %><p><%= md(example.caption) %></p><% } %>
+          <h2 class='fl mb0 mt0' id='<%- slug(example.description) %>'>
           <%= highlight(example.description) %>
+          </h2>
         <% }) %>
       <% } %>
-    </h2>
+
     <% } %>
     <% if (section.context && section.context.github) { %>
       <a class='fr fill-darken0 round round pad1x quiet h5' href='<%= section.context.github.url %>'>

@@ -64,7 +64,6 @@
   <title><%- config['project-name'] %> <%- config['project-version'] %> | Documentation</title><% if (config['project-description']) { %>
   <meta name='description' content='<%- config['project-description'] %>'><% } %>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <script src='assets/decamelize.js'></script>
   <link href='assets/bass.css' rel='stylesheet'>
   <link href='assets/style.css' rel='stylesheet'>
   <link href='assets/github.css' rel='stylesheet'>
@@ -95,7 +94,7 @@
                   <h2 class="mt1 mb1"><%- decamelize(doc.name, {separator: ' ', preserveConsecutiveUppercase: true}) %></h2>
                 <% }%>
                 <a
-                  href='#<%=slug(doc.namespace)%>'
+                  href='#<%=slug(doc.tags[1]['description'])%>'
                   class="<% if (doc.kind === 'note') { %>h5 bold black caps<% } %><% if (hasMembers) { %> toggle-sibling<% } %>">
                      <%- doc.tags[1]['description'] %>
                   <% if (hasMembers) { %><span class='icon'>▸</span><% } %>
