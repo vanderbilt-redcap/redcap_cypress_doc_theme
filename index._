@@ -32,7 +32,7 @@
                 <% var hasMembers = doc.members.static.length || doc.members.instance.length %>
                 <li>
                 <% if (doc.name !== previous_kind){ %>
-                  <h2 class="mb0 mt0"><%- doc.name %></h2>
+                  <h2 class="mt3 mb1"><%- doc.name %></h2>
                 <% }%>
                 <a
                   href='#<%=slug(doc.namespace)%>'
@@ -105,16 +105,27 @@
         </div>
       </div>
       <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        <% var previous_section = '' %>
+
         <% docs.forEach(function(s) { %>
           <% if (s.kind === 'note' && !s.children) { %>
             <div class='keyline-top-not py2'><%=renderNote({ note: s })%></div>
+
           <% } else { %>
+
+          <% if(previous_section.name !== s.name){ %>
+          <h2 class='fl mt3 mb2' id='<%- slug(s.namespace) %>'><%- s.name %></h3>
+          <% } %>
+
           <%= renderSection({
             section: s,
             renderSection: renderSection,
             renderSectionList: renderSectionList,
             renderParamProperty: renderParamProperty
           }) %>
+
+          <% previous_section = s %>
+
           <% } %>
         <% }) %>
       </div>
