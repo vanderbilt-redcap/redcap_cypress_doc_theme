@@ -1,3 +1,21 @@
+<%
+    resolveAuthorLinks = (str) => {
+      let author = ''
+      let matches
+
+      if (str) {
+        matches = str.match(/^\s?([\s\S]+)\b\s+<(\S+@\S+)>\s?$/);
+
+        if (matches && matches.length === 3) {
+          author = `<a href="mailto:${matches[2]}">${matches[1]}</a>`
+        } else {
+          author = str
+        }
+      }
+
+      return author
+    }
+%>
 <section class='p2 mb2 clearfix bg-white minishadow'>
 
   <% if (typeof nested === 'undefined' || (section.context && section.context.github)) { %>
@@ -79,14 +97,12 @@
     </p>
   <% } %>
 
-  <% if (section.deprecated) { %><div>Deprecated: <%= md(section.deprecated, true) %></div><% }%>
-  <% if (section.version) { %><div>Version: <%- section.version %></div><% }%>
-  <% if (section.license) { %><div>License: <%- section.license %></div><% }%>
-  <% if (section.author) { %><div>Author: <%- section.author %></div><% }%>
-  <% if (section.copyright) { %><div>Copyright: <%= md(section.copyright, true) %></div><% }%>
-  <% if (section.since) { %><div>Since: <%- section.since %></div><% }%>
-
-
+  <% if (section.deprecated) { %><p>Deprecated: <%= md(section.deprecated, true) %></p><% }%>
+  <% if (section.version) { %><p>Version: <%- section.version %></p><% }%>
+  <% if (section.license) { %><p>License: <%- section.license %></p><% }%>
+  <% if (section.author) { %><p class='mb0'><strong>Author:</strong> <%= resolveAuthorLinks(section.author) %></p><% }%>
+  <% if (section.copyright) { %><p>Copyright: <%= md(section.copyright, true) %></p><% }%>
+  <% if (section.since) { %><p>Since: <%- section.since %></p><% }%>
 
   <% if (section.properties && section.properties.length) { %>
     <div class='py1 quiet mt1 prose-big'>Properties</div>

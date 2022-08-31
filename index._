@@ -93,12 +93,17 @@
                 <% if (doc.name !== previous_kind){ %>
                   <h2 class="mt1 mb1"><%- decamelize(doc.name, {separator: ' ', preserveConsecutiveUppercase: true}) %></h2>
                 <% }%>
-                <a
-                  href='#<%=slug(doc.tags[1]['description'])%>'
-                  class="<% if (doc.kind === 'note') { %>h5 bold black caps<% } %><% if (hasMembers) { %> toggle-sibling<% } %>">
-                     <%- doc.tags[1]['description'] %>
-                  <% if (hasMembers) { %><span class='icon'>▸</span><% } %>
-                </a>
+
+                <% doc.tags.forEach(function(tag) { %>
+                   <% if(tag['title'] === 'example'){ %>
+                   <a
+                      href='#<%=slug(tag['description'])%>'
+                      class="<% if (doc.kind === 'note') { %>h5 bold black caps<% } %><% if (hasMembers) { %> toggle-sibling<% } %>">
+                         <%- tag['description'] %>
+                      <% if (hasMembers) { %><span class='icon'>▸</span><% } %>
+                    </a>
+                   <% } %>
+                <% }) %>
 
                 <% previous_kind = doc.name %>
 
