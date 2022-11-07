@@ -90,7 +90,7 @@
               <% docs.forEach(function(doc) { %>
                 <% var hasMembers = doc.members.static.length || doc.members.instance.length %>
                 <li>
-                <% if (doc.name !== previous_kind){ %>
+                <% if (doc.name !== previous_kind && doc.kind == "module"){ %>
                   <h2 class="mt1 mb1"><%- decamelize(doc.name, {separator: ' ', preserveConsecutiveUppercase: true}) %></h2>
                 <% }%>
 
