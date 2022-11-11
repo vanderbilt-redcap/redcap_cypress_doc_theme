@@ -131,12 +131,30 @@ export default async function (comments, config) {
     sharedImports
   );
 
+  await copyDir(__dirname + '/assets/', config.output + '/assets/');
+
+  //Fetch the files currently in the docs directory
+  let current_doc_files = await fs.readdir(config.output);
+
+  let versions = []
+  for (let doc of current_doc_files) {
+    if(doc !== 'assets' && doc!== 'index.html') versions.push(doc) //Filter out all files except the versioned files
+  }
+
+  versions.push( 'v' + config['project-version'] + '.html')
+
+  //Add the UNQIUE versions to the config file
+  config['versions'] = [... new Set(versions)]
+
   const string = pageTemplate({ docs: comments, config });
 
   if (!config.output) {
     return string;
   }
 
-  await copyDir(__dirname + '/assets/', config.output + '/assets/');
+  //Write a copy to version specific file
+  await fs.writeFile(config.output + '/v' + config['project-version'] + '.html', string, 'utf8');
+
+  //This serves as the landing page and represents the current version of the repository
   await fs.writeFile(config.output + '/index.html', string, 'utf8');
 }
