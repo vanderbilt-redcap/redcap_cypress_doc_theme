@@ -94,80 +94,26 @@
             type='text' />
           <div id='toc'>
             <ul class='list-reset h5 py1-ul'>
-              <% var previous_kind = '' %>
-              <% docs.forEach(function(doc) { %>
-                <% var hasMembers = doc.members.static.length || doc.members.instance.length %>
-                <li>
-                <% if (doc.name !== previous_kind && doc.kind == "module"){ %>
-                  <h2 class="mt1 mb1"><%- decamelize(doc.name, {separator: ' ', preserveConsecutiveUppercase: true}) %></h2>
-                <% }%>
+              <%
+              let all_tags = []
 
-                <% doc.tags.forEach(function(tag) { %>
-                   <% if(tag['title'] === 'example'){ %>
-                   <a
-                      href='#<%=slug(tag['description'])%>'
-                      class="<% if (doc.kind === 'note') { %>h5 bold black caps<% } %><% if (hasMembers) { %> toggle-sibling<% } %>">
-                         <%- tag['description'] %>
-                      <% if (hasMembers) { %><span class='icon'>▸</span><% } %>
-                    </a>
-                   <% } %>
-                <% }) %>
+              docs.forEach(function(doc) {
+                  doc.tags.forEach(function(tag) {
+                  if(tag['title'] === 'example'){
+                      all_tags.push( { name: doc.name, description: tag['description'], doc: doc } ) }
+                  } )
+              })
 
-                <% previous_kind = doc.name %>
+              uniq_tags = [... new Set(all_tags)]
 
-                <% if (hasMembers) { %>
-                <div class='toggle-target display-none'>
-                  <% if (doc.members.static && doc.members.static.length) { %>
-                  <ul class='list-reset py1-ul pl1'>
-                    <li class='h5'><span>Static members</span></li>
-                    <% doc.members.static.forEach(function(member) { %>
-                      <li><a
-                        href='#<%=slug(member.namespace)%>'
-                        class='regular pre-open'>
-                        .<%- member.name %>
-                      </a></li>
-                    <% }) %>
-                    </ul>
-                  <% } %>
-                  <% if (doc.members.instance && doc.members.instance.length) { %>
-                    <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Instance members</span></li>
-                      <% doc.members.instance.forEach(function(member) { %>
-                      <li><a
-                        href='#<%=slug(member.namespace)%>'
-                        class='regular pre-open'>
-                        #<%- member.name %>
-                      </a></li>
-                      <% }) %>
-                    </ul>
-                  <% } %>
-                  <% if (doc.members.inner && doc.members.inner.length) { %>
-                    <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'><span>Inner members</span></li>
-                      <% doc.members.inner.forEach(function(member) { %>
-                      <li><a
-                        href='#<%=slug(member.namespace)%>'
-                        class='regular pre-open'>
-                        #<%- member.name %>
-                      </a></li>
-                      <% }) %>
-                    </ul>
-                  <% } %>
-                  <% if (doc.members.events && doc.members.events.length) { %>
-                    <ul class='list-reset py1-ul pl1'>
-                      <li class='h5'>Events</li>
-                      <% doc.members.events.forEach(function(member) { %>
-                        <li><a
-                          href='#<%=slug(member.namespace)%>'
-                          class='regular pre-open'>
-                          ⓔ <%- member.name %>
-                        </a></li>
-                      <% }) %>
-                    </ul>
-                  <% } %>
-                </div>
-                <% } %>
-                </li>
+              let previous_tag = ''
+
+              uniq_tags.forEach(function(tag){ %>
+                    <% if (tag['name'] != previous_tag){ %>
+                      <h2 class="mt1 mb1"><%- decamelize(tag['name'], {separator: ' ', preserveConsecutiveUppercase: true}) %></h2>
+                    <% }%>
+                    <li><a href='#<%=slug(tag['description'])%>'><%- tag['description'] %></a></li>
+                    <% previous_tag = tag['name'] %>
               <% }) %>
             </ul>
           </div>
@@ -179,27 +125,19 @@
       <div id='split-right' class='relative overflow-auto height-viewport-100'>
         <% var previous_section = '' %>
 
-        <% docs.forEach(function(s) { %>
-          <% if (s.kind === 'note' && !s.children) { %>
-            <div class='keyline-top-not py2'><%=renderNote({ note: s })%></div>
-
-          <% } else { %>
-
-          <% if(previous_section.name !== s.name && s.kind == "module"){ %>
-          <h2 class='fl mt3 mb2' id='<%- slug(s.namespace) %>'><%- decamelize(s.name, {separator: ' ', preserveConsecutiveUppercase: true}) %></h3>
-          <% } %>
-
-          <%= renderSection({
-            section: s,
-            renderSection: renderSection,
-            renderSectionList: renderSectionList,
-            renderParamProperty: renderParamProperty
-          }) %>
-
-          <% previous_section = s %>
-
-          <% } %>
+        <% uniq_tags.forEach(function(tag){ %>
+            <% if (tag['name'] != previous_section){ %>
+            <h2 class='fl mt3 mb2' id='<%- slug(tag['name']) %>'><%- decamelize(tag['name'], {separator: ' ', preserveConsecutiveUppercase: true}) %></h3>
+            <% }%>
+            <%= renderSection({
+                section: tag['doc'],
+                renderSection: renderSection,
+                renderSectionList: renderSectionList,
+                renderParamProperty: renderParamProperty
+            }) %>
+            <% previous_section = tag['name'] %>
         <% }) %>
+
       </div>
     </div>
   <script src='assets/anchor.js'></script>
