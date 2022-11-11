@@ -185,7 +185,7 @@
 
           <% } else { %>
 
-          <% if(previous_section.name !== s.name){ %>
+          <% if(previous_section.name !== s.name && s.kind == "module"){ %>
           <h2 class='fl mt3 mb2' id='<%- slug(s.namespace) %>'><%- decamelize(s.name, {separator: ' ', preserveConsecutiveUppercase: true}) %></h3>
           <% } %>
 
