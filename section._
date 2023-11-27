@@ -62,7 +62,7 @@
                     <div class='options mt5'>
                       <ul style="margin: 0 0 0 0;">
                         <% options.forEach(function(option) { %>
-                          <li><code><%- option %></code></li>
+                          <li><code><%- option.replace(/&#x26;/g, '&') %></code></li>
                         <% }) %>
                       </ul>
                     </div>
@@ -75,7 +75,7 @@
                         (<%= formatType(param.type) %><% if (param.default) { %>
                             = <code><%- param.default %></code><% } %>)</code>
 
-                  <%= md(param.description, true) %>
+                  <%= md(param.description, true).replace(/&#x26;/g, '&') %>
               <% } %>
 
             </div>
