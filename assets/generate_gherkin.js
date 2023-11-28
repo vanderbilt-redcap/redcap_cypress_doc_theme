@@ -1,5 +1,6 @@
 const options = {
-    baseElement: [' on the tooltip',
+    baseElement: ['',
+        ' on the tooltip',
         ' in the tooltip',
         ' on the role selector dropdown',
         ' in the role selector dropdown',
