@@ -38,7 +38,7 @@
       <% if (section.examples && section.examples.length) { %>
           <% section.examples.forEach(function(example) { %>
               <script>
-                  document.getElementById(`<%= slug(example.description) %>_gherkin`).innerHTML = `<div id="input${step_counter}"></div><button onclick="generateText(${step_counter})">Generate Step</button><br /><br /><div id="output${step_counter}"></div>`
+                  document.getElementById(`<%= slug(example.description) %>_gherkin`).innerHTML = `<div id="input${step_counter}"></div><button onclick="generateText(${step_counter})" class="btn">Generate Step</button><br /><br /><div id="output${step_counter}"></div>`
                   outputStepGenerator(<%= step_counter %>)
               </script>
           <% }) %>
