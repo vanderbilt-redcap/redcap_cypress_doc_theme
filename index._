@@ -69,8 +69,10 @@
   <link href='assets/github.css' rel='stylesheet'>
   <link href='assets/split.css' rel='stylesheet'><% if (config['favicon']) { %>
   <link href='<%- config['favicon'] %>' rel='icon' ><% } %>
+  <script src="assets/generate_gherkin.js"></script>
 </head>
 <body class='documentation m0'>
+
     <div class='flex'>
       <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
         <div class='py1 px2'>
@@ -123,23 +125,32 @@
         </div>
       </div>
       <div id='split-right' class='relative overflow-auto height-viewport-100'>
-        <% var previous_section = '' %>
+          <% var previous_section = '' %>
+
+          <script>
+              window.all_steps = []
+          </script>
+
+        <% var step_counter = 0 %>
 
         <% uniq_tags.forEach(function(tag){ %>
             <% if (tag['name'] != previous_section){ %>
             <h2 class='fl mt3 mb2' id='<%- slug(tag['name']) %>'><%- decamelize(tag['name'], {separator: ' ', preserveConsecutiveUppercase: true}) %></h3>
             <% }%>
+
             <%= renderSection({
-                section: tag['doc'],
-                renderSection: renderSection,
-                renderSectionList: renderSectionList,
-                renderParamProperty: renderParamProperty
+                    section: tag['doc'],
+                    renderSection: renderSection,
+                    renderSectionList: renderSectionList,
+                    renderParamProperty: renderParamProperty,
+                    step_counter: step_counter += 1
             }) %>
             <% previous_section = tag['name'] %>
         <% }) %>
 
       </div>
     </div>
+
   <script src='assets/anchor.js'></script>
   <script src='assets/split.js'></script>
   <script src='assets/site.js'></script>

@@ -28,10 +28,24 @@
           <h2 class='fl mb0 mt0' id='<%- slug(example.description) %>'>
           <%= highlight(example.description) %>
           </h2>
+          <div id="<%= slug(example.description) %>_gherkin"></div>
+          <script>
+                window.all_steps.push(`<%= example.description %>`)
+          </script>
         <% }) %>
       <% } %>
 
+      <% if (section.examples && section.examples.length) { %>
+          <% section.examples.forEach(function(example) { %>
+              <script>
+                  document.getElementById(`<%= slug(example.description) %>_gherkin`).innerHTML = `<div id="input${step_counter}"></div><button onclick="generateText(${step_counter})">Generate Step</button><br /><br /><div id="output${step_counter}"></div>`
+                  outputStepGenerator(<%= step_counter %>)
+              </script>
+          <% }) %>
+      <% } %>
+
     <% } %>
+
     <% if (section.context && section.context.github) { %>
       <a class='fr fill-darken0 round round pad1x quiet h5' href='<%= section.context.github.url %>'>
       <span><%= section.context.github.path %></span>
