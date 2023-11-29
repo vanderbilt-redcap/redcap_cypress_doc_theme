@@ -131,6 +131,10 @@ export default async function (comments, config) {
     sharedImports
   );
 
+  // IMPORTANT: THIS IS THE KEY TO ALL GHERKIN GENERATOR MAGIC WORKING!  DO NOT DELETE!
+  await fs.copyFile('./node_modules/rctf/step_definitions/support/mappings.js', __dirname + '/assets/mappings.js')
+  await fs.copyFile('./node_modules/rctf/step_definitions/support/all_mappings.js', __dirname + '/assets/all_mappings.js')
+
   await copyDir(__dirname + '/assets/', config.output + '/assets/');
 
   //Fetch the files currently in the docs directory
