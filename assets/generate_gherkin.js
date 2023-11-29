@@ -45,7 +45,7 @@ function outputStepGenerator(index){
     for (let i = 0; i < Object.keys(placeholders).length; i++) {
         const param = placeholders[i]
         const optionalText = extractOptionalText(param);
-        const dropdown = `<select class="select2" id="optional_${index}_${i}"><option value=""> </option><option value="${optionalText}">${optionalText}</option></select>`
+        const dropdown = `<select class="select2" id="optional_${index}_${i}"><option value="">&nbsp;</option><option value="${optionalText}">${optionalText}</option></select>`
         replacedStepDefinition = replacedStepDefinition.replace(param, dropdown)
     }
 
@@ -54,7 +54,7 @@ function outputStepGenerator(index){
         let param = Object.keys(window.parameterTypes)[i]
         const pattern = new RegExp(`\\{${param}\\}`, 'g');
         if(replacedStepDefinition.match(pattern)) {
-            const dropdown = `<select class="select2" id="${param}_${index}">${window.parameterTypes[param].map(option => `<option value="${option}">${option}</option>`).join('')}</select>`;
+            const dropdown = `<select class="select2" id="${param}_${index}"><option value="">&nbsp;</option>${window.parameterTypes[param].map(option => `<option value="${option}">${option}</option>`).join('')}</select>`;
             replacedStepDefinition = replacedStepDefinition.replace(`{${param}}`, dropdown)
         }
     }
@@ -99,7 +99,12 @@ function generateText(index) {
         if(replacedStepDefinition.match(pattern)) {
             let dropdown = document.getElementById(`${param}_${index}`);
             selectedValues[param] = dropdown.options[dropdown.selectedIndex].text;
-            replacedStepDefinition = replacedStepDefinition.replace(`{${param}}`, selectedValues[param]);
+            if(dropdown.options[dropdown.selectedIndex].value === ""){
+                replacedStepDefinition = replacedStepDefinition.replace(`{${param}}`, '')
+            } else {
+                replacedStepDefinition = replacedStepDefinition.replace(`{${param}}`, selectedValues[param])
+            }
+
         }
     }
 
