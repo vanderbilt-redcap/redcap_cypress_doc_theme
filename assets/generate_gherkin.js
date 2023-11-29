@@ -212,7 +212,7 @@ function outputStepGenerator(index){
     let str_step = ''
 
     for(let i = 0; i < countStringInstances(replacedStepDefinition); i++) {
-        let inputBox = `"<input type="text" id="string_${index}_Input${i}">"`
+        let inputBox = `"<input type="text" id="string_Input_${i}_${index}">"`
         str_step += replacedStepDefinition.split("{string}")[i] + inputBox
     }
 
@@ -222,7 +222,7 @@ function outputStepGenerator(index){
     let int_step = ''
 
     for(let i = 0; i < countIntInstances(replacedStepDefinition); i++) {
-        let intBox = `<input type="text" id="int_${index}_Input${i}">`
+        let intBox = `<input type="text" oninput="validateInteger(this)" id="int_Input_${i}_${index}"><span class="error-message" id="error_message_${i}_${index}"></span>`
         int_step += replacedStepDefinition.split("{int}")[i] + intBox
     }
 
@@ -265,7 +265,7 @@ function generateText(index) {
     let str_step = ''
 
     for(let i = 0; i < countStringInstances(stepDefinition); i++) {
-        stringInput[i] = document.getElementById(`string_${index}_Input${i}`).value;
+        stringInput[i] = document.getElementById(`string_Input_${i}_${index}`).value;
         str_step += `${replacedStepDefinition.split("{string}")[i]} "${stringInput[i]}"`
     }
 
@@ -274,7 +274,7 @@ function generateText(index) {
     let int_step = ''
 
     for(let i = 0; i < countIntInstances(stepDefinition); i++) {
-        intInput[i] = document.getElementById(`int_${index}_Input${i}`).value;
+        intInput[i] = document.getElementById(`int_Input_${i}_${index}`).value;
         int_step += `${replacedStepDefinition.split("{int}")[i]} ${intInput[i]} `
     }
 
@@ -298,4 +298,20 @@ function generateText(index) {
 
     // Display the replaced step definition in the output div
     document.getElementById(`output${index}`).innerHTML = `<strong>Generated Step:</strong><br />${replacedStepDefinition}`;
+}
+
+function validateInteger(inputElement) {
+    var inputValue = inputElement.value.trim();
+
+    // Regular expression to check if the input is a valid integer
+    var integerRegExp = /^\d+$/;
+
+    var parts = inputElement.id.split('_')
+    var error_id = parts.slice(2).join('_')
+
+    if (!integerRegExp.test(inputValue) && inputValue !== '') {
+        document.getElementById(`error_message_${error_id}`).innerHTML = "<= WARNING: INTEGERS ONLY"
+    } else {
+        document.getElementById(`error_message_${error_id}`).innerHTML = ""
+    }
 }

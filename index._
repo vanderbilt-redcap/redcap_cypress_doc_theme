@@ -105,6 +105,12 @@
             cursor: pointer;
             border-radius: 4px;
         }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            padding: 5px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class='documentation m0'>
