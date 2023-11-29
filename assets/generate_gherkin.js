@@ -247,7 +247,7 @@ function outputStepGenerator(index){
     }
 
     // Display the replaced step definition in the output div
-    document.getElementById(`input${index}`).innerHTML = replacedStepDefinition
+    document.getElementById(`input${index}`).innerHTML = `<div class="step"><strong>Gherkin Generator:</strong><br />${replacedStepDefinition}</div>`
 }
 
 function generateText(index) {
@@ -297,7 +297,7 @@ function generateText(index) {
     }
 
     // Display the replaced step definition in the output div
-    document.getElementById(`output${index}`).innerHTML = `<strong>Generated Step:</strong><br />${replacedStepDefinition}`;
+    document.getElementById(`output${index}`).innerHTML = `<div class="generated_step"><strong>Generated Step:</strong><br />${replacedStepDefinition}</div>`;
 }
 
 function validateInteger(inputElement) {

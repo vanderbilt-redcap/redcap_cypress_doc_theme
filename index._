@@ -83,7 +83,7 @@
         input[type="text"] {
             margin-top: 3px;
             border-radius: 4px;
-            height: 10px;
+            min-height: 10px;
             border: 1px solid #ccc; /* Add a border for better visibility */
             padding: 8px; /* Adjust padding for better appearance */
         }
@@ -110,6 +110,27 @@
             font-size: 12px;
             padding: 5px;
             font-weight: bold;
+        }
+
+        .gherkin_step {
+            background: #ccc;
+            padding: 20px;
+            border: 1px solid #ccc; /* Add a border for better visibility */
+            border-radius: 5px;
+        }
+
+        .gherkin_step .step{
+            background: #eee;
+            padding: 20px;
+            border: 1px solid #ccc; /* Add a border for better visibility */
+            border-radius: 5px
+        }
+
+        .gherkin_step .generated_step{
+            background: #eee;
+            padding: 20px;
+            border: 1px solid #ccc; /* Add a border for better visibility */
+            border-radius: 5px
         }
     </style>
 </head>

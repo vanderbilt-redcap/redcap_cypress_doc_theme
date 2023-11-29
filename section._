@@ -28,9 +28,7 @@
           <h2 class='fl mb0 mt0' id='<%- slug(example.description) %>'>
           <%= highlight(example.description) %>
           </h2>
-          <hr />
-          <div class="mb2 mt2" id="<%= slug(example.description) %>_gherkin"></div>
-          <hr />
+          <div class="gherkin_step" id="<%= slug(example.description) %>_gherkin"></div>
           <script>
                 window.all_steps.push(`<%= example.description %>`)
           </script>
