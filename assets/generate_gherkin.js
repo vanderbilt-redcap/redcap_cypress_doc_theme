@@ -232,7 +232,7 @@ function outputStepGenerator(index){
     for (let i = 0; i < Object.keys(placeholders).length; i++) {
         const param = placeholders[i]
         const optionalText = extractOptionalText(param);
-        const dropdown = `<select id="optional_${index}_${i}"><option value=""> </option><option value="${optionalText}">${optionalText}</option></select>`
+        const dropdown = `<select class="select2" id="optional_${index}_${i}"><option value=""> </option><option value="${optionalText}">${optionalText}</option></select>`
         replacedStepDefinition = replacedStepDefinition.replace(param, dropdown)
     }
 
@@ -241,7 +241,7 @@ function outputStepGenerator(index){
         let param = Object.keys(options)[i]
         const pattern = new RegExp(`\\{${param}\\}`, 'g');
         if(replacedStepDefinition.match(pattern)) {
-            const dropdown = `<select id="${param}_${index}">${options[param].map(option => `<option value="${option}">${option}</option>`).join('')}</select>`;
+            const dropdown = `<select class="select2" id="${param}_${index}">${options[param].map(option => `<option value="${option}">${option}</option>`).join('')}</select>`;
             replacedStepDefinition = replacedStepDefinition.replace(`{${param}}`, dropdown)
         }
     }
