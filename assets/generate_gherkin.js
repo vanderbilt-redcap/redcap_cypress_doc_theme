@@ -297,7 +297,7 @@ function generateText(index) {
     }
 
     // Display the replaced step definition in the output div
-    document.getElementById(`output${index}`).innerHTML = `<div class="generated_step"><strong>Generated Step:</strong><br />${replacedStepDefinition}</div>`;
+    document.getElementById(`output${index}`).innerHTML = `<div class="generated_step"><strong>Generated Step:</strong><br /><button class="btn" onclick="copyToClipboard('step_${index}')">Copy Gherkin</button><pre><code id="step_${index}">${trimMultipleSpaces(replacedStepDefinition)}</code></pre></div>`;
 }
 
 function validateInteger(inputElement) {
@@ -314,4 +314,27 @@ function validateInteger(inputElement) {
     } else {
         document.getElementById(`error_message_${error_id}`).innerHTML = ""
     }
+}
+
+function copyToClipboard(element_id) {
+    var codeBlock = document.getElementById(element_id);
+    var range = document.createRange();
+    range.selectNode(codeBlock);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+
+    try {
+        // Copy the selected text to the clipboard
+        document.execCommand('copy');
+        alert('Gherkin step copied to clipboard!');
+    } catch (error) {
+        console.error('Unable to copy to clipboard', error);
+    }
+
+    window.getSelection().removeAllRanges();
+}
+
+function trimMultipleSpaces(inputString) {
+    // Replace multiple spaces with a single space
+    return inputString.replace(/ +/g, ' ');
 }

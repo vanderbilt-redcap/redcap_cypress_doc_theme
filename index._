@@ -132,6 +132,15 @@
             border: 1px solid #ccc; /* Add a border for better visibility */
             border-radius: 5px
         }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body class='documentation m0'>
