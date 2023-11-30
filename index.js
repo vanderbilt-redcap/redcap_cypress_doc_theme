@@ -5,6 +5,7 @@ import GithubSlugger from 'github-slugger';
 import { util } from 'documentation/src/index.js';
 import hljs from 'highlight.js';
 import { fileURLToPath } from 'url';
+import rctfPackageJson from '../redcap_cypress/node_modules/rctf/package.json' assert { type: "json" }
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -145,7 +146,10 @@ export default async function (comments, config) {
     if(doc !== 'assets' && doc!== 'index.html') versions.push(doc) //Filter out all files except the versioned files
   }
 
-  versions.push( 'v' + config['project-version'] + '.html')
+  //Get the version from the package.json file as installed in Cypress
+  config['rctf_version'] = rctfPackageJson.version
+
+  versions.push( 'v' + config['rctf_version'] + '.html')
 
   //Add the UNQIUE versions to the config file
   config['versions'] = [... new Set(versions)]
@@ -156,8 +160,21 @@ export default async function (comments, config) {
     return string;
   }
 
+  let str = `const rctf_versions = [`
+  config['versions'].forEach(function(v) {
+    str += `'${v}',`
+  })
+  str = str.slice(0, -1) + ']\n'
+
+  str += '  window.versions = \'\'\n' +
+'rctf_versions.forEach(function(v) {\n' +
+'  window.versions += `<li><a href="${v}">${v}</a></li>`\n' +
+'})\n'
+
+  await fs.writeFile(config.output + '/assets/rctf_versions.js', str, 'utf8');
+
   //Write a copy to version specific file
-  await fs.writeFile(config.output + '/v' + config['project-version'] + '.html', string, 'utf8');
+  await fs.writeFile(config.output + '/v' + config['rctf_version'] + '.html', string, 'utf8');
 
   //This serves as the landing page and represents the current version of the repository
   await fs.writeFile(config.output + '/index.html', string, 'utf8');

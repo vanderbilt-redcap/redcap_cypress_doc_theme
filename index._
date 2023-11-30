@@ -75,9 +75,11 @@
     <script src="assets/mappings.js"></script>
     <script src="assets/all_mappings.js"></script>
     <script src="assets/generate_gherkin.js"></script>
+    <script src="assets/rctf_versions.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             $('.select2').select2()
+            document.getElementById('rctf_versions').innerHTML = window.versions
         })
     </script>
     <style>
@@ -154,11 +156,7 @@
           <div class='mb1'><code>v<%- config['project-version'] %></code></div>
             <div>
               <span class="mb0">Step Definition Versions:</span>
-              <ul class='mt0'>
-              <% config['versions'].forEach(function(v){ %>
-                  <li><a href="<%- v %>"><%- v.split('.html')[0] %></a></li>
-              <% }) %>
-              </ul>
+              <ul id="rctf_versions" class='mt0'></ul>
             </div>
           <input
             placeholder='Filter'
