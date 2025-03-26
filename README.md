@@ -2,7 +2,7 @@
 
 ![](screenshot.png)
 
-This is the customized documentation theme for [documentationjs](https://github.com/aldefouw/redcap_cypress):
+This is the customized documentation theme for [documentationjs](https://documentation.js.org):
 it consists of underscore templates and a few assets: a [highlight.js](https://highlightjs.org/)
 theme and [basscss](https://basscss.com/) as a basic CSS framework.
 
